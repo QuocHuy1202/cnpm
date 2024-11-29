@@ -6,6 +6,7 @@ import { TaiFile } from "./pages/loadfile.jsx"
 import {PrintPage} from "./pages/printsetting.jsx"
 import {Print} from "./pages/print.jsx"
 import {Homen} from "./pages/home.jsx"
+import {PrintHistory} from "./pages/printhistory.jsx"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
@@ -19,7 +20,7 @@ function App() {
             <Route path="/printsetting" element={<PrintPage />} />
             <Route path="/loadfile" element={<TaiFile />} />
             <Route path="/print" element={<Print />} />
-            
+            <Route path="/history" element={<PrintHistory />} />
           </Routes>
       </Router>
     

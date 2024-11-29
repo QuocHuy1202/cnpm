@@ -30,16 +30,18 @@ body {
     gap: 10px;
   }
   
-.trangchu {
+.trangchuls {
     padding: 10px 15px;
     border: none;
-    background-color:  #0026fffc;
+    background-color:  #007bff;
     color: white;
     font-size: 16px;
     border-radius: 4px;
     cursor: pointer;
   }
-
+  .trangchuls:hover {
+    background-color: #0e2ee5fc; /* Màu nền khi hover */
+  }
 .in {
     padding: 10px 15px;
     border: none;
@@ -52,16 +54,16 @@ body {
   .in:hover {
     background-color: #0e2ee5fc; /* Màu nền khi hover */
   }
-.xem {
+.xemls {
     padding: 10px 15px;
     border: none;
-    background-color:  #007bff;
+    background-color:  #0026fffc;
     color: white;
     font-size: 16px;
     border-radius: 4px;
     cursor: pointer;
   }
-.xem:hover {
+.xemls:hover {
     background-color: #0e2ee5fc; /* Màu nền khi hover */
   }
   .dangnhap {
@@ -245,7 +247,71 @@ body {
     margin: 0px 5px;
     cursor: pointer;
   }
+  .menu-button {
+    display: none; /* Ẩn theo mặc định */
+    background-color: transparent;
+    border: none;
+    font-size: 2rem; /* Kích thước chữ cho dấu menu */
+    color: #121010; /* Màu chữ */
+    cursor: pointer;
+    z-index: 1001; /* Đảm bảo nút xuất hiện trên các phần tử khác */
+    position: absolute;
+    top: 15px; /* Căn vị trí nút menu ở góc trên bên trái */
+    left: 0px; /* Căn vị trí nút menu */
+  }
   
+  /* Khi màn hình nhỏ (dưới 768px) */
+  @media screen and (max-width: 768px) {
+    .menu-button {
+      display: block; /* Hiển thị nút menu khi màn hình nhỏ */
+    }
+  }
+  /* Popup menu */
+  /* Popup menu */
+  .popup {
+    position: absolute;
+    top: 88px;
+    left: 0;
+    width: 45%;
+    height: 100vh;
+    background-color: #ffffff; /* Màu nền mờ */
+    display: flex;
+    flex-direction: column;
+    
+    z-index: 100; /* Đảm bảo menu popup nằm trên các phần tử khác */
+  }
+  
+  /* Các phần tử trong menu popup */
+  .popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .popup ul li {
+    padding: 10px 20px;
+    font-size: 18px;
+    text-align: left;
+    color: #121010;
+    border-bottom: 1px solid #d9d9d9; /* Thêm vạch ngăn cách */
+  }
+  .popup ul li a {
+    text-decoration: none;
+    color: #0a0a0a;
+    font-size: 20px;
+    font-weight: 100;
+    font-family: "Inter-Regular", Helvetica;
+    z-index: 1000;
+    left:10px;
+  }
+  
+  
+  
+  /* Tùy chỉnh hover */
+  .popup ul li:hover {
+    background-color: #f1f1f1;
+  }
  @media (max-width: 768px){
     .logo {
         height: 50px;
@@ -323,69 +389,4 @@ a {
 
 .trangchu-bot:hover, .in-bot.active:hover, .xem-bot:hover, .dang-nhap:hover {
   text-decoration: none; /* Loại bỏ dấu gạch chân khi hover */
-}
-.menu-button {
-  display: none; /* Ẩn theo mặc định */
-  background-color: transparent;
-  border: none;
-  font-size: 2rem; /* Kích thước chữ cho dấu menu */
-  color: #121010; /* Màu chữ */
-  cursor: pointer;
-  z-index: 1001; /* Đảm bảo nút xuất hiện trên các phần tử khác */
-  position: absolute;
-  top: 15px; /* Căn vị trí nút menu ở góc trên bên trái */
-  left: 0px; /* Căn vị trí nút menu */
-}
-
-/* Khi màn hình nhỏ (dưới 768px) */
-@media screen and (max-width: 768px) {
-  .menu-button {
-    display: block; /* Hiển thị nút menu khi màn hình nhỏ */
-  }
-}
-/* Popup menu */
-/* Popup menu */
-.popup {
-  position: absolute;
-  top: 88px;
-  left: 0;
-  width: 45%;
-  height: 100vh;
-  background-color: #ffffff; /* Màu nền mờ */
-  display: flex;
-  flex-direction: column;
-  
-  z-index: 100; /* Đảm bảo menu popup nằm trên các phần tử khác */
-}
-
-/* Các phần tử trong menu popup */
-.popup ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-}
-
-.popup ul li {
-  padding: 10px 20px;
-  font-size: 18px;
-  text-align: left;
-  color: #121010;
-  border-bottom: 1px solid #d9d9d9; /* Thêm vạch ngăn cách */
-}
-.popup ul li a {
-  text-decoration: none;
-  color: #0a0a0a;
-  font-size: 20px;
-  font-weight: 100;
-  font-family: "Inter-Regular", Helvetica;
-  z-index: 1000;
-  left:10px;
-}
-
-
-
-/* Tùy chỉnh hover */
-.popup ul li:hover {
-  background-color: #f1f1f1;
 }

@@ -77,11 +77,7 @@ export const Homen = () => {
                 Xem lịch sử in ấn
               </Link>
             </li>
-            <li>
-              <Link to="/login" onClick={togglePopup}>
-                Đăng Nhập
-              </Link>
-            </li>
+            
           </ul>
         </div>
       )}
