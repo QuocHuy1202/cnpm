@@ -90,9 +90,9 @@ export const PrintHistory = () => {
       {isPopupOpen && isMobileView && (
         <div className="popup">
           <ul>
-            <li><Link to="/" onClick={togglePopup}>Trang Chủ</Link></li>
-            <li><Link to="/print" onClick={togglePopup}>In</Link></li>
-            <li><Link to="/history" onClick={togglePopup}>Xem lịch sử in ấn</Link></li>
+            <Link to="/" onClick={togglePopup}><li>Trang Chủ</li></Link>
+            <Link to="/print" onClick={togglePopup}><li>In</li></Link>
+            <Link to="/history" onClick={togglePopup}><li>Xem lịch sử in ấn</li></Link>
           </ul>
         </div>
       )}
