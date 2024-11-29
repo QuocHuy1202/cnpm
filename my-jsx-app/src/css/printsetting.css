@@ -23,7 +23,7 @@ body {
     margin-bottom: 15px;
 }
 
-.setting {
+.settings {
     display: flex;
     flex-direction: column;
     gap: 5px;
