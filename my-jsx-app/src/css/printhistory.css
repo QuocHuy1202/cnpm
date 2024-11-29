@@ -113,140 +113,7 @@ body {
     cursor: pointer;
 } 
   
-  /* Content */
-  .content {
-    flex: 1;
-    background-color: #ffffff; /* Nền xám phần form đăng nhập */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
   
-  .list-file {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #f5f5f5;
-    height: 500px;
-    width: 450px;
-    margin: 0 auto;
-  }
-  .list-label{
-    display: block;
-    font-size: 18px;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  .selected-file-display {
-    display: flex;
-    margin-top: 250px;
-    margin-left: 20px;
-    width: 100%;
-    gap: 20px;
-  }
-  .tieude{
-    margin: 0;
-  }
-  .selected-file-label{
-    margin: 0;
-    font-size: 18px;
-    color: #333;
-  }
-  .corfirm-bot{
-    margin-top: 20px;
-    padding: 8px 15px;
-    background-color: #2196f3;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-  }
-  .file-upload {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #f5f5f5;
-    height: 500px;
-    width: 750px;
-    margin: 0 auto;
-  }
-  .file-table {
-    padding: 20px 20px;
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #ffffff;
-  }
-  .file-label {
-    display: block;
-    font-size: 18px;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  .file-input {
-    display: block;
-    margin: 10px auto;
-    width: 100%;
-    cursor: pointer;
-  }
-  
-  .file-preview {
-    width: 100%;
-    height: 350px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: none;
-    background-color: white;
-  }
-  
-  .file-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 50px;
-    margin: 0px 0px;
-  }
-  
-  .file-name-label {
-    font-size: 16px;
-    margin: 0px 5px;
-  }
-  
-  .file-name-input {
-    border: 1px solid #ccc;
-    padding: 8px;
-    width: 60%;
-    border-radius: 7px;
-  }
-  
-
-  .buttons {
-    display: flex;
-    /* gap: 10px; */
-    /* margin: 0px 5px; */
-  }
-  
-  .open-bot {
-    padding: 8px 15px;
-    background-color: #2196f3;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    margin: 0px 5px;
-  }
-  
-  .btn.cancel {
-    padding: 8px 15px;
-    background-color: #c65c54;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    margin: 0px 5px;
-    cursor: pointer;
-  }
   .menu-button {
     display: none; /* Ẩn theo mặc định */
     background-color: transparent;
@@ -270,7 +137,7 @@ body {
   /* Popup menu */
   .popup {
     position: absolute;
-    top: 88px;
+    top: 70px;
     left: 0;
     width: 45%;
     height: 100vh;
@@ -320,41 +187,6 @@ body {
        
       }
  }
- .overlap-2 {
-  background-image: url(../image/image-1.png);
-  background-position: 50% 50%;
-  background-size: cover;
-  height: 510px;
-  left: 0;
-  position: absolute;
-  top: 70px;
-  width: 100%;
-  z-index:2;
-}
-.welcome-section {
-  position: absolute;
-  left: 5%; /* Đặt sát lề trái */
-  top: 20px; /* Canh giữa theo chiều dọc */
-  /* Dịch chuyển để canh giữa chính xác */
-  background-color: rgba(182, 182, 182, 0.7); /* Nền xám mờ */
-  padding: 20px;
-  border-radius: 8px;
-  width: 40%; /* Chiều rộng chiếm 30% màn hình */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ */
-}
-
-.welcome-section h1 {
-  font-size: 40px;
-  margin: 0;
-  color: #333; /* Màu chữ đậm */
-}
-
-.welcome-section p {
-  font-size: 32px;
-  margin-top: 10px;
-  color: #555; /* Màu chữ nhạt hơn */
-}
-
 /* Responsive cho màn hình nhỏ */
 @media (max-width: 768px) {
   .welcome-section {

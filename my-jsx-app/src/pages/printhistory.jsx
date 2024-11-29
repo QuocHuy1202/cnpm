@@ -49,7 +49,10 @@ export const PrintHistory = () => {
             </nav>
           )}
         </nav>
-        <Link to="/login" className="dangnhap">Đăng nhập</Link>
+        <img src={chuong} alt="Tbao" className="Tbao" /> {/* CHuong*/}
+        <img src={mess} alt="tnhan" className="tnhan" /> {/* hop thoại */}
+        <button className="setting"></button>
+        <img src={avar} alt="hAnh" className="hAnh" /> {/* avarta */}
       </header>
 
       {/* Nội dung trang: Bảng lịch sử in ấn */}

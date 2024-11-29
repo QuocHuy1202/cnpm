@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import image from "../image/image.png";
 import chuong from "../image/chuong.png";
 import mess from "../image/mess.png";
 import avar from "../image/avar.svg";
 import "../css/loadfile.css";
-
+import { Link } from "react-router-dom";
 export const TaiFile = () => {
   // State lưu danh sách file đã tải lên
   const [files, setFiles] = useState([]);
-
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
   // State lưu file được chọn tạm thời
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFileFromList, setSelectedFileFromList] = useState(""); // Tên file được chọn từ danh sách
@@ -45,20 +46,36 @@ export const TaiFile = () => {
   const handleSelectFileFromList = (fileName) => {
     setSelectedFileFromList(fileName); // Lưu tên file
   };
-
+  useEffect(() => {
+    const handleResize = () => setIsMobileView(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
   return (
     <div className="app">
       {/* Header chứa logo và thanh điều hướng */}
       <header className="header">
         <img src={image} alt="Logo" className="logo" />
         <nav className="navbar">
-          <button className="trangchu-bot">Trang chủ</button>
-          <button className="in-bot active">In</button>
-          <button className="xem-bot">Xem lịch sử in ấn</button>
+          {isMobileView ? (
+            <button className="menu-button" onClick={togglePopup}>
+              ☰
+            </button>
+          ) : (
+            <nav className="navbar">
+              <Link to="/" className="trangchu-bot">Trang chủ</Link>
+              <Link to="/print" className="in-bot active">In</Link>
+              <Link to="/history" className="xem-bot">Xem lịch sử in ấn</Link>
+            </nav>
+          )}
         </nav>
-        <img src={chuong} alt="Tbao" className="Tbao" />
-        <img src={mess} alt="tnhan" className="tnhan" />
-        <img src={avar} alt="hAnh" className="hAnh" />
+        <img src={chuong} alt="Tbao" className="Tbao" /> {/* CHuong*/}
+        <img src={mess} alt="tnhan" className="tnhan" /> {/* hop thoại */}
+        <button className="setting"></button>
+        <img src={avar} alt="hAnh" className="hAnh" /> {/* avarta */}
       </header>
       {/* Nội dung */}
       <div className="content">
@@ -158,6 +175,15 @@ export const TaiFile = () => {
           </div>
         </div>
       </div>
+      {isPopupOpen && isMobileView && (
+        <div className="popup">
+          <ul>
+            <li><Link to="/" onClick={togglePopup}>Trang Chủ</Link></li>
+            <li><Link to="/print" onClick={togglePopup}>In</Link></li>
+            <li><Link to="/history" onClick={togglePopup}>Xem lịch sử in ấn</Link></li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

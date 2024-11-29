@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "../css/print.css";
+import { Link } from "react-router-dom";
 import image from "../image/image.png";
 import chuong from "../image/chuong.png";
 import mess from "../image/mess.png";
@@ -14,7 +15,8 @@ export const Print = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedFileFromList } = location.state || {};
-  
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
   // Hàm xử lý chọn file
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -29,7 +31,14 @@ export const Print = () => {
   const handleGoHome = () => {
     navigate("/"); // Navigate to the homepage
   };
-
+  useEffect(() => {
+    const handleResize = () => setIsMobileView(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
   // Điều hướng đến trang tải file
   const handleGoloadfile = () => {
     navigate("/loadfile", { state: { selectedFileFromList } });
@@ -54,17 +63,21 @@ export const Print = () => {
 
   return (
     <div className="app">
-      {/* Header chứa logo và thanh điều hướng */}
+      {/* Header chứa logo và điều hướng */}
       <header className="header">
-        <img src={image} alt="Logo" className="logo" /> {/* Logo */}
+        <img src={image} alt="Logo" className="logo" />
         <nav className="navbar">
-          <button className="trangchu-bot" onClick={handleGoHome}>
-            Trang chủ
-          </button>{" "}
-          {/* Nút Trang chủ */}
-          <button className="in-bot active">In</button> {/* Nút In (active) */}
-          <button className="xem-bot">Xem lịch sử in ấn</button>{" "}
-          {/* Nút Xem lịch sử */}
+          {isMobileView ? (
+            <button className="menu-button" onClick={togglePopup}>
+              ☰
+            </button>
+          ) : (
+            <nav className="navbar">
+              <Link to="/" className="trangchu-bot">Trang chủ</Link>
+              <Link to="/print" className="in-bot active">In</Link>
+              <Link to="/history" className="xem-bot">Xem lịch sử in ấn</Link>
+            </nav>
+          )}
         </nav>
         <img src={chuong} alt="Tbao" className="Tbao" /> {/* CHuong*/}
         <img src={mess} alt="tnhan" className="tnhan" /> {/* hop thoại */}
@@ -124,6 +137,16 @@ export const Print = () => {
         </div>
         <img src={mayin} alt="mayin" className="mayin" /> {/* mayin */}
       </div>
+      {isPopupOpen && isMobileView && (
+        <div className="popup">
+          <ul>
+            <li><Link to="/" onClick={togglePopup}>Trang Chủ</Link></li>
+            <li><Link to="/print" onClick={togglePopup}>In</Link></li>
+            <li><Link to="/history" onClick={togglePopup}>Xem lịch sử in ấn</Link></li>
+          </ul>
+        </div>
+      )}
     </div>
+    
   );
 };

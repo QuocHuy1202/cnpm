@@ -128,7 +128,7 @@ export const PrintPage = () => {
         </div>
         <div className="buttons">
           <button className="print-button" onClick={handlePrint}>
-            Print
+            Confirm
           </button>
           <button className="cancel-button"onClick={handleCancel} >Cancel</button>
         </div>
