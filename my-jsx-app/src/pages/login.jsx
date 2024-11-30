@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import image from "../image/image.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import "../css/login.css";
 
 export const Login = () => {
@@ -8,14 +8,38 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleLogin = (e) => {
+
+    const handleLogin = async (e) => {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của form
+      
         if (!username || !password) {
-            e.preventDefault(); // Ngăn điều hướng
-            setError("Vui lòng nhập tên đăng nhập và mật khẩu.");
+          setError("Vui lòng nhập tên đăng nhập và mật khẩu.");
         } else {
-            setError(""); // Xóa thông báo lỗi nếu cả hai trường đều được nhập
+          setError(""); // Xóa thông báo lỗi nếu cả hai trường đều được nhập
+      
+          try {
+            const response = await fetch('http://localhost:5000/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ username, password }),
+            });
+      
+            if (response.ok) {
+              // Xử lý khi đăng nhập thành công
+              console.log('Login successful');
+              Navigate()("/");
+            } else {
+              // Xử lý khi đăng nhập không thành công
+              setError('Tên đăng nhập hoặc mật khẩu không đúng.');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
         }
-    };
+      };
+    
 
     return (
         <div className="login-container">
@@ -55,9 +79,9 @@ export const Login = () => {
                         </div>
                         {error && <p className="error-message">{error}</p>}
                         <div className="button-group">
-                            <Link to="/" className="login-button" onClick={handleLogin}>
+                            <li className="login-button" onClick={handleLogin}>
                                 Đăng Nhập
-                            </Link>
+                            </li>
                             <Link to="/" className="exit-button">Thoát</Link>
 
                         </div>

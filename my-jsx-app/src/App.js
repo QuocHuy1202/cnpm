@@ -1,7 +1,8 @@
 // src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { TrangChu } from "./pages/index.jsx";  // Import component TrangCh
+import { TrangChu } from "./pages/index.jsx";
+import { SPSO } from "./pages/spso.jsx";  // Import component TrangCh
 import {Login} from "./pages/login.jsx"
 import {PrintPage} from "./pages/printsetting.jsx"
 import { ToastContainer, toast } from 'react-toastify';
@@ -14,7 +15,8 @@ function App() {
           <Routes>
             <Route path="/" element={<TrangChu />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/printsetting" element={<PrintPage />} />
+            <Route path="/printseng" element={<PrintPage />} />
+            <Route path="/spso" element={<SPSO />} /> 
           </Routes>
       </Router>
     
