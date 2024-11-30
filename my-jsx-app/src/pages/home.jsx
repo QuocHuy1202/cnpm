@@ -6,11 +6,13 @@ import mess from "../image/mess.png";
 import avar from "../image/avar.svg";  // Avatar image path
 import "../css/home.css";
 
+
 export const Homen = () => {
   const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);  // Popup for mobile menu
   const [isAvatarPopupOpen, setIsAvatarPopupOpen] = useState(false);  // Popup for avatar
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // State to check login status
+  const [error, setError] = useState("");
   const navigate = useNavigate();  // Hook to navigate user
 
   // Xử lý thay đổi kích thước màn hình
@@ -27,10 +29,28 @@ export const Homen = () => {
   }, []);
 
   // Function to handle logout
-  const handleLogout = () => {
-    localStorage.removeItem("token");  // Remove token from localStorage
-    setIsLoggedIn(false);  // Update the logged-in status
-    navigate("/login");  // Redirect user to the login page
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5000/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.ok) {
+        localStorage.removeItem("token");  // Remove token from localStorage
+        setIsLoggedIn(false);  // Update the logged-in status
+        navigate("/login");  // Redirect user to the login page
+      } else {
+        // Xử lý khi đăng nhập không thành công
+        setError('Không thể đăng xuất.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+    
   };
 
   // Functions to toggle popups

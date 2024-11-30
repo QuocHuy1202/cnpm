@@ -2,11 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const sql = require('mssql');
 const bodyParser = require('body-parser');
-
+const CurrentUser = require('../singleton/account')
 const app = express();
 app.use(cors());
 
 app.use(bodyParser.json());
+const currentUser = CurrentUser.getInstance();
 
 const config = {
   user: 'sa',
@@ -19,11 +20,13 @@ const config = {
   }
 };
 
-app.get('/api/employees', async (req, res) => {
+app.get('/logout', async (req, res) => {
   try {
-    const pool = await sql.connect(config);
-    const result = await pool.request().query('SELECT * FROM dbo.GetQuizScoresByTeacher(1)');
-    res.json(result.recordset);
+    console.log(currentUser.getUsername())
+    if (currentUser.isLoggedIn == false){
+      console.log("here");
+    }
+    console.log(currentUser.isLoggedIn())
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -32,11 +35,6 @@ app.get('/api/employees', async (req, res) => {
 app.get('/login', async (req, res) => {
   try {
     const pool = await sql.connect(config);
-    /*request.input('input_username', sql.VarChar(255), 'thanh123');
-    request.input('input_password', sql.VarChar(255), '123456');
-
-    const result = await pool.request.query('SELECT dbo.CheckAccount(@input_username, @input_password) AS accountExists');
-    console.log(result);*/
     const result = await pool.request().query('SELECT * FROM Account;');
     res.json(result.recordset);
   } catch (error) {
@@ -49,18 +47,29 @@ app.post('/login', async (req, res) => {
     let pool = await sql.connect(config);
 
     const { email, password } = req.body;
-    console.log(email)
-    //const query = `SELECT * FROM Account WHERE user_name = '${username}' AND password = '${password}'`;
     let result = await pool.request()
             .input('username', sql.NVarChar, email)
             .input('password', sql.NVarChar, password)
             .query('SELECT * FROM Account WHERE user_name = @username AND password = @password');
 
     if (result.recordset.length > 0) {
+      currentUser.setUsername(email);
+      currentUser.setLoggedIn(true);
       res.status(200).json({ message: 'Login successful' });
     } else {
       res.status(401).json({ message: 'Login failed' });
     }
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+app.post('/logout', async (req, res) => {
+  try {
+    currentUser.setLoggedIn(false);
+    res.status(200).json({ message: 'Login successful' });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal Server Error');
