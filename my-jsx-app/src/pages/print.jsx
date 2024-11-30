@@ -11,7 +11,8 @@ import mayin from "../image/may-in.jpg";
 
 export const Print = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [printer, setPrinter] = useState("");
+  const [printers, setPrinters] = useState([]); // Lưu danh sách máy in từ API
+  const [selectedPrinter, setSelectedPrinter] = useState("");  // Lưu giá trị được chọn
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedFileFromList } = location.state || {};
@@ -23,8 +24,9 @@ export const Print = () => {
   };
 
   // Hàm xử lý chọn máy in
-  const handlePrinterChange = (event) => {
-    setPrinter(event.target.value);
+  function handlePrinterChange(event){
+    setSelectedPrinter(event.target.value);
+
   };
 
   // Điều hướng về trang chủ
@@ -34,8 +36,26 @@ export const Print = () => {
   useEffect(() => {
     const handleResize = () => setIsMobileView(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
+    handleResize(); // Gọi ngay lần đầu để thiết lập trạng thái
+  
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, []); // Chỉ chạy một lần khi component mount
+  
+  useEffect(() => {
+    // Gọi API để lấy danh sách máy in
+    const fetchPrinters = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/printers");
+        const data = await response.json();
+        setPrinters(data); // Cập nhật danh sách máy in
+      } catch (error) {
+        console.error("Error fetching printers:", error);
+      }
+    };
+  
+    fetchPrinters();
+  }, []); // Chỉ chạy một lần khi component mount
+  
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
   };
@@ -48,12 +68,16 @@ export const Print = () => {
   const handlePrint = () => {
     const fileToPrint = selectedFile || selectedFileFromList; // Kiểm tra file nào có trước
 
-    if (!fileToPrint || !printer) {
-      alert("Vui lòng chọn file và máy in.");
+    if (!fileToPrint) {
+      alert("Vui lòng chọn file.");
+      return;
+    }
+    else if (!selectedPrinter){
+      alert("Vui lòng chọn máy in.");
       return;
     }
 
-    alert(`Đang in file ${fileToPrint.name || fileToPrint} trên máy ${printer}`);
+    alert(`Đang in file ${fileToPrint.name || fileToPrint} trên máy ${printers}`);
   };
 
   // Điều hướng đến trang thiết lập in
@@ -120,14 +144,24 @@ export const Print = () => {
             <div className="printer-select">
               <label className="chonmayin">Chọn máy in</label>
               <select
+                id="printer-select"
                 className="option"
-                value={printer}
+                value={selectedPrinter}
                 onChange={handlePrinterChange}
               >
                 <option value="">Chọn máy in</option>
-                <option value="Printer 1">Printer 1</option>
-                <option value="Printer 2">Printer 2</option>
+                {/* Hiển thị danh sách máy in từ API */}
+                {printers.map((printer) => (
+                  <option key={printer.printer_ID} value={printer.printer_ID}>
+                    {printer.brand} {printer.model} ({printer.location})
+                  </option>
+                ))}
               </select>
+              {selectedPrinter && (
+                <p>
+                  Bạn đã chọn máy in với ID: <strong>{selectedPrinter}</strong>
+                </p>  
+              )}
             </div>
             <button className="print-btn" onClick={handlePrint}>
               <span>🖨️</span> In

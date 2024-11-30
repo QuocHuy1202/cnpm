@@ -12,36 +12,89 @@ export const TaiFile = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
   // State lưu file được chọn tạm thời
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState("");
   const [selectedFileFromList, setSelectedFileFromList] = useState(""); // Tên file được chọn từ danh sách
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const handleGoPrint = () => {
     navigate("/print", { state: { selectedFileFromList } }); // Chuyển sang trang Print với state
   };
+
+
+  const [documents, setDocuments] = useState([]);
+
+  useEffect(() => {
+    // Gọi API để lấy danh sách tài liệu
+    const fetchDocuments = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/documents");
+        const data = await response.json();
+        setDocuments(data); // Cập nhật danh sách tài liệu
+      } catch (error) {
+        console.error("Error fetching documents:", error);
+      }
+    };
+  
+    fetchDocuments();
+  }, []); // Khi tham số [] bị bỏ, useEffect sẽ chạy mỗi khi component render lại
+  
+
   // const handleGoPrint = () => {
   //   window.close(); // Đóng cửa sổ/tab hiện tại
   // };
   // Hàm xử lý khi chọn file
   const handleFileChange = (e) => {
+    
     const file = e.target.files[0]; // Lấy file đầu tiên từ danh sách
+
     if (file) {
-      setSelectedFile(file); // Lưu file được chọn
+      setSelectedFile(file.name); // Lưu file được chọn
     }
+    console.log(selectedFile)
   };
-  // Hàm xử lý khi nhấn nút "Xác nhận"
-  const handleConfirm = () => {
-    if (selectedFile) {
-      // Lấy thông tin file
-      const newFile = {
-        name: selectedFile.name,
-        size: (selectedFile.size / 1024).toFixed(2) + " KB", // Chuyển byte sang KB
-        date: new Date().toLocaleDateString(), // Ngày hiện tại
-      };
-      // Thêm file vào danh sách
-      setFiles((prevFiles) => [...prevFiles, newFile]);
-      // Reset file được chọn
-      setSelectedFile(null);
+
+  function getFileExtension(fileName) {
+    const lastDotIndex = fileName.lastIndexOf(".");
+    if (lastDotIndex === -1) {
+      return ""; // Trả về chuỗi rỗng nếu không có dấu chấm
     }
+    return fileName.substring(lastDotIndex + 1); // Lấy phần mở rộng của tệp
+  }
+  
+  // Hàm xử lý khi nhấn nút "Xác nhận"
+  const handleConfirm = async (e) => {
+    e.preventDefault();
+    if (selectedFile){
+      try {
+
+        const response = await fetch("http://localhost:5000/documents", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            file_name: selectedFile, // Tên file
+            file_type: getFileExtension(selectedFile), // Lấy phần mở rộng của file
+            number_of_pages: 11,
+            file_path: 'uploads/' + selectedFile, // Đường dẫn file
+            student_ID: 1,
+          }),
+        });
+  
+        if (response.ok) {
+          setMessage("Tài liệu đã được lưu thành công!");
+          setSelectedFile(null);
+        } else {
+          const errorText = await response.text();
+          setMessage(`Lỗi: ${errorText}`);
+        }
+      } catch (err) {
+        console.error(err.message);
+        setMessage("Lỗi khi gửi yêu cầu");
+      }
+      
+    }
+    
   };
   const handleSelectFileFromList = (fileName) => {
     setSelectedFileFromList(fileName); // Lưu tên file
@@ -96,36 +149,30 @@ export const TaiFile = () => {
         <div className="list-file">
           <label className="list-label">Danh sách file</label>
           <table className="file-table">
-            <thead>
-              <tr>
-                <th>Tên file</th>
-                <th>Kích thước</th>
-                <th>Ngày tải</th>
-                <th> </th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Danh sách mẫu */}
-              {[
-                { name: "file1.doc", size: "123 KB", date: "1 / 2/ 2024" },
-                { name: "file2.doc", size: "234 KB", date: "12 / 3/ 2024" },
-                { name: "file3.doc", size: "279 KB", date: "18 / 3/ 2024" },
-                { name: "file4.doc", size: "567 KB", date: "12 / 3/ 2024" },
-              ].map((file, index) => (
-                <tr key={index}>
-                  <td>{file.name}</td>
-                  <td>{file.size}</td>
-                  <td>{file.date}</td>
-                  <td>
-                    <button
-                      onClick={() => handleSelectFileFromList(file.name)}
-                      className="select-btn"
-                    >
-                      Chọn
-                    </button>
-                  </td>
-                </tr>
-              ))}
+          <thead>
+          <tr>
+            <th>Tên file</th>
+            <th>Loại file</th>
+            <th>Số trang giấy</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {documents.map((doc) => (
+            <tr key={doc.document_ID}>
+              <td>{doc.file_name}</td>
+              <td>{doc.file_type}</td>
+              <td>{doc.number_of_pages}</td>
+              <td>
+                <button
+                  onClick={() => handleSelectFileFromList(doc.file_name)}
+                  className="select-btn"
+                >
+                  Chọn
+                </button>
+              </td>
+            </tr>
+          ))}
               {/* Danh sách file người dùng tải lên */}
               {files.map((file, index) => (
                 <tr key={index}>

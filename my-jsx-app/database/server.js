@@ -76,6 +76,75 @@ app.post('/logout', async (req, res) => {
   }
 });
 
+// API lấy danh sách máy in
+app.get("/printers", async (req, res) => {
+  try {
+    // Kết nối đến SQL Server
+    let pool = await sql.connect(config);
+
+    // Query dữ liệu
+    let result = await pool.request().query("SELECT * FROM Printer");
+    
+    // Trả về danh sách máy in
+    res.json(result.recordset);
+
+  } catch (err) {
+    console.error("Error fetching printers:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+app.get("/documents", async (req, res) => {
+  try {
+    if (currentUser.isLoggedIn == false) return;
+    
+    // Kết nối đến database
+    let pool = await sql.connect(config);
+    const user_name = currentUser.getUsername();
+   
+    // Truy vấn dữ liệu
+    let result = await pool
+      .request()
+      .input("user_name", sql.NVarChar, user_name) // Truyền tham số cho hàm
+      .query("SELECT * FROM dbo.GetDocumentsByUserName(@user_name)");
+
+    // Trả về danh sách document
+    res.status(200).json(result.recordset);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Lỗi khi lấy danh sách tài liệu");
+  }
+});
+
+app.post("/documents", async (req, res) => {
+  const { file_name, file_type, number_of_pages, file_path, student_ID } = req.body;
+  // Kiểm tra dữ liệu đầu vào
+  if (!file_name || !file_type || !number_of_pages || !file_path || !student_ID) {
+    return res.status(400).send("Dữ liệu đầu vào không hợp lệ");
+  }
+  
+  try {
+    // Kết nối đến cơ sở dữ liệu
+    let pool = await sql.connect(config);
+    // Chèn tài liệu vào bảng Document
+    let result = await pool
+      .request()
+      .input("file_name", sql.NVarChar, file_name)
+      .input("file_type", sql.NVarChar, file_type)
+      .input("number_of_pages", sql.Int, number_of_pages)
+      .input("file_path", sql.NVarChar, file_path)
+      .input("user_name", sql.NVarChar, currentUser.getUsername())
+      .execute("InsertDocument"); // Gọi thủ tục InsertDocument
+
+    // Trả về phản hồi thành công
+    res.status(201).send("Tài liệu đã được lưu thành công");
+  } catch (error) {
+    console.error("Lỗi khi lưu tài liệu:", error.message);
+    res.status(500).send("Lỗi khi lưu tài liệu");
+  }
+});
+
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
