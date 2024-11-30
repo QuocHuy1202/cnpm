@@ -22,16 +22,15 @@ export const Login = () => {
       setError(""); // Clear error message if both fields are filled
 
       try {
-        const response = await fetch(`${backendUrl}/api/user/login`, {
-          method: "POST",
+        const response = await fetch('http://localhost:5000/login', {
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email, password }), // Send email and password in the body
+          body: JSON.stringify({ email, password }),
         });
-
+    
         if (response.ok) {
-          // Successful login
           const data = await response.json();
           setToken(data.token); // Save token in state
           localStorage.setItem("token", data.token); // Store token in localStorage
@@ -39,18 +38,15 @@ export const Login = () => {
           toast.success("Đăng nhập thành công!"); // Show success message
           navigate("/"); // Redirect to the home page after login
         } else {
-          // Login failed, handle error
-          const errorData = await response.json();
-          const errorMessage = errorData.message || "Login failed!";
-          toast.error(errorMessage); // Show error message with toast
+          // Xử lý khi đăng nhập không thành công
+          setError('Tên đăng nhập hoặc mật khẩu không đúng.');
         }
       } catch (error) {
-        console.error("Error:", error);
-        toast.error("Có lỗi xảy ra, vui lòng thử lại.");
+        console.error('Error:', error);
       }
     }
   };
-
+  
   return (
     <div className="login-container">
       {/* Header */}

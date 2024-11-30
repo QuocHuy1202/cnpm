@@ -1,13 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const sql = require('mssql');
+const bodyParser = require('body-parser');
 
 const app = express();
 app.use(cors());
 
+app.use(bodyParser.json());
+
 const config = {
   user: 'sa',
-  password: 'huy1202',
+  password: 'Huy1022003',
   server: 'localhost',
   database: 'cnpm',
   options: {
@@ -29,6 +32,11 @@ app.get('/api/employees', async (req, res) => {
 app.get('/login', async (req, res) => {
   try {
     const pool = await sql.connect(config);
+    /*request.input('input_username', sql.VarChar(255), 'thanh123');
+    request.input('input_password', sql.VarChar(255), '123456');
+
+    const result = await pool.request.query('SELECT dbo.CheckAccount(@input_username, @input_password) AS accountExists');
+    console.log(result);*/
     const result = await pool.request().query('SELECT * FROM Account;');
     res.json(result.recordset);
   } catch (error) {
@@ -38,24 +46,26 @@ app.get('/login', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   try {
-    const pool = await sql.connect(config);
+    let pool = await sql.connect(config);
 
-    //const { username, password } = req.body;
-    const query = "SELECT * FROM Account WHERE user_name = 'john_doe' AND password = 'pass123'";
-    const result = await pool.request().query("SELECT * FROM Account WHERE user_name = 'john_doe' AND password = 'pass123'");
-    console.log(result.recordset.length);
-    res.status(200).json({ message: 'Login successful' });
-    /*if (result.recordset.length > 0) {
+    const { email, password } = req.body;
+    console.log(email)
+    //const query = `SELECT * FROM Account WHERE user_name = '${username}' AND password = '${password}'`;
+    let result = await pool.request()
+            .input('username', sql.NVarChar, email)
+            .input('password', sql.NVarChar, password)
+            .query('SELECT * FROM Account WHERE user_name = @username AND password = @password');
+
+    if (result.recordset.length > 0) {
       res.status(200).json({ message: 'Login successful' });
     } else {
       res.status(401).json({ message: 'Login failed' });
-    }*/
+    }
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal Server Error');
   }
 });
-
 
 const PORT = 5000;
 app.listen(PORT, () => {

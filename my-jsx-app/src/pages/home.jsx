@@ -73,9 +73,9 @@ export const Homen = () => {
             <img src={avar} alt="hAnh" className="hAnh" />  {/* Avatar */}
           </div>
         ) : (
-          <div className="avatar-link" onClick={toggleAvatarPopup}>
-            <img src={avar} alt="hAnh" className="hAnh" />  {/* Avatar icon */}
-          </div>
+          <Link to="/login" className="dangnhap">
+                Đăng nhập
+              </Link>
         )}
       </header>
 
