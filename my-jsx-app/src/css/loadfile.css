@@ -95,7 +95,11 @@ body {
     z-index: 10; /* Đảm bảo ảnh nổi lên trên các phần tử khác */
     cursor: pointer;
 } 
-  
+@media screen and (max-width: 768px) {
+  .menu-button {
+    display: block; /* Hiển thị nút menu khi màn hình nhỏ */
+  }
+}
   /* Content */
   .content {
     flex: 1;
@@ -104,6 +108,37 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+  }
+  @media (max-width: 768px) {
+    .content {
+      flex-direction: column; /* Khi màn hình nhỏ hơn 768px, xếp theo cột */
+      align-items: stretch;  /* Căn giữa các phần tử */
+      gap: 40px;
+    }
+  
+    .list-file{
+      border-radius: 10px;
+      padding: 0px;
+      height: 500px;
+      width: 90%;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+    .file-upload {
+      width: 100%; /* Đảm bảo các phần tử chiếm toàn bộ chiều rộng của container */
+      height: auto; /* Chiều cao tự động điều chỉnh theo nội dung */
+      flex: 1; /* Đảm bảo các phần tử đều giãn nở */
+      max-width: 90%;
+      padding: 0px;
+    }
+  }
+  @media (max-width: 350px) {
+    .content {
+      flex-direction: column; /* Khi màn hình nhỏ hơn 768px, xếp theo cột */
+      gap: 150px;
+      left: 0;
+      font-size: 10px;
+    }
   }
   
   .list-file {

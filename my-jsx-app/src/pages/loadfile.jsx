@@ -47,6 +47,13 @@ export const TaiFile = () => {
     setSelectedFileFromList(fileName); // Lưu tên file
   };
   useEffect(() => {
+    // Gọi handleGoPrint ngay sau khi selectedFileFromList thay đổi
+    if (selectedFileFromList) {
+      handleGoPrint(); // Gọi handleGoPrint ngay lập tức
+    }
+  }, [selectedFileFromList]); // chuyển trang khi chọn
+
+  useEffect(() => {
     const handleResize = () => setIsMobileView(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -66,9 +73,15 @@ export const TaiFile = () => {
             </button>
           ) : (
             <nav className="navbar">
-              <Link to="/" className="trangchu-bot">Trang chủ</Link>
-              <Link to="/print" className="in-bot active">In</Link>
-              <Link to="/history" className="xem-bot">Xem lịch sử in ấn</Link>
+              <Link to="/" className="trangchu-bot">
+                Trang chủ
+              </Link>
+              <Link to="/print" className="in-bot active">
+                In
+              </Link>
+              <Link to="/history" className="xem-bot">
+                Xem lịch sử in ấn
+              </Link>
             </nav>
           )}
         </nav>
@@ -94,10 +107,10 @@ export const TaiFile = () => {
             <tbody>
               {/* Danh sách mẫu */}
               {[
-                { name: "file1.doc", size: "123 KB", date: "1/2/2024" },
-                { name: "file2.doc", size: "234 KB", date: "12/3/2024" },
-                { name: "file3.doc", size: "279 KB", date: "18/3/2024" },
-                { name: "file4.doc", size: "567 KB", date: "12/3/2024" },
+                { name: "file1.doc", size: "123 KB", date: "1 / 2/ 2024" },
+                { name: "file2.doc", size: "234 KB", date: "12 / 3/ 2024" },
+                { name: "file3.doc", size: "279 KB", date: "18 / 3/ 2024" },
+                { name: "file4.doc", size: "567 KB", date: "12 / 3/ 2024" },
               ].map((file, index) => (
                 <tr key={index}>
                   <td>{file.name}</td>
@@ -131,15 +144,15 @@ export const TaiFile = () => {
               ))}
             </tbody>
           </table>
-          <div className="selected-file-display">
+          {/* <div className="selected-file-display">
             <h3 className="tieude">File đã chọn:</h3>
             <label className="selected-file-label">
               {selectedFileFromList || "Chưa chọn file nào"}
             </label>
-          </div>
-          <button className="corfirm-bot" onClick={handleGoPrint}>
+          </div> */}
+          {/* <button className="corfirm-bot" onClick={handleGoPrint}>
             Chọn
-          </button>
+          </button> */}
         </div>
         {/* Upload file */}
         <div className="file-upload">
@@ -178,9 +191,15 @@ export const TaiFile = () => {
       {isPopupOpen && isMobileView && (
         <div className="popup">
           <ul>
-            <Link to="/" onClick={togglePopup}><li>Trang Chủ</li></Link>
-            <Link to="/print" onClick={togglePopup}><li>In</li></Link>
-            <Link to="/history" onClick={togglePopup}><li>Xem lịch sử in ấn</li></Link>
+            <Link to="/" onClick={togglePopup}>
+              <li>Trang Chủ</li>
+            </Link>
+            <Link to="/print" onClick={togglePopup}>
+              <li>In</li>
+            </Link>
+            <Link to="/history" onClick={togglePopup}>
+              <li>Xem lịch sử in ấn</li>
+            </Link>
           </ul>
         </div>
       )}
