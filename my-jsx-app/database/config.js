@@ -3,7 +3,7 @@ const sql = require('mssql');
 // Cấu hình kết nối SQL Server
 const config = {
   user: 'sa',         // Tên đăng nhập SQL Server
-  password: 'Huy1022003',     // Mật khẩu
+  password: 'huy1202',     // Mật khẩu
   server: 'localhost',           // Tên máy chủ SQL Server
   database: 'KhoaHocOnline',     // Tên cơ sở dữ liệu
   options: {

@@ -1,11 +1,7 @@
 // src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-<<<<<<< HEAD
-import { TrangChu } from "./pages/index.jsx";
 import { SPSO } from "./pages/spso.jsx";  // Import component TrangCh
-=======
->>>>>>> 151a2760fa6ca3ecedbf7f212ecc098992158af5
 import {Login} from "./pages/login.jsx"
 import { TaiFile } from "./pages/loadfile.jsx"
 import {PrintPage} from "./pages/printsetting.jsx"
@@ -21,16 +17,12 @@ function App() {
         
           <Routes>
             <Route path="/" element={<Homen />} />
-            <Route path="/login" element={<Login />} />
-<<<<<<< HEAD
-            <Route path="/printseng" element={<PrintPage />} />
-            <Route path="/spso" element={<SPSO />} /> 
-=======
-            <Route path="/printsetting" element={<PrintPage />} />
-            <Route path="/loadfile" element={<TaiFile />} />
             <Route path="/print" element={<Print />} />
-            <Route path="/history" element={<PrintHistory />} />
->>>>>>> 151a2760fa6ca3ecedbf7f212ecc098992158af5
+            <Route path="/loadfile" element={<TaiFile />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/printsetting" element={<PrintPage />} />
+            <Route path="/history" element={<PrintHistory />} /> 
+            <Route path="/spso" element={<SPSO />} /> 
           </Routes>
       </Router>
     

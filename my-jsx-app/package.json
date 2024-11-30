@@ -8,6 +8,10 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+<<<<<<< HEAD
+=======
+    "cors": "^2.8.5",
+>>>>>>> ae2d0ffb009c7770f4426bb4d4de03f7d89ef6ff
     "mssql": "^11.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -17,9 +21,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"npm run start:react\" \"npm run start:node\"",
-    "start:react": "react-scripts start",
-    "start:node": "nodemon database/server.js",
+    "start": "cross-env PORT=4000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -41,5 +43,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+<<<<<<< HEAD
+=======
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+>>>>>>> ae2d0ffb009c7770f4426bb4d4de03f7d89ef6ff
   }
 }
