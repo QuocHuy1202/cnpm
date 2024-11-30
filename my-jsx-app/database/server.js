@@ -5,10 +5,6 @@ const sql = require('mssql');
 const app = express();
 app.use(cors());
 
-app.use(cors({
-  origin: 'http://localhost:3000'
-}));
-
 const config = {
   user: 'sa',
   password: 'huy1202',

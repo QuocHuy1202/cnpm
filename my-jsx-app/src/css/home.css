@@ -256,3 +256,108 @@ a {
 .popup ul li:hover {
   background-color: #f1f1f1;
 }
+/* Avatar icon */
+.avatar-link {
+  position: absolute; /* Sử dụng absolute để căn vào góc */
+  top: 0px;  /* Căn giữa theo chiều dọc của header */
+  right: 0px;  /* Căn vào góc phải của header */
+   /* Điều chỉnh để căn giữa hoàn hảo theo chiều dọc */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.hAnh {
+  height: 40px;
+  padding: 5px 0px;
+  margin: 0px 15px;
+  position: absolute;
+  top: 10px;
+  right: 40px;
+  object-fit: contain;
+  z-index: 10;
+  cursor: pointer;
+}
+
+/* Popup Avatar */
+.avatar-popup {
+  position: absolute;
+  top: 70px;  /* Position the popup below the avatar */
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  z-index: 1000;  /* Ensure it's on top of other content */
+  width: 150px;
+}
+
+.avatar-popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.avatar-popup li {
+  padding: 8px 0;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.avatar-popup li:last-child {
+  border-bottom: none;
+}
+
+.avatar-popup li:hover {
+  background-color: #f4f4f4;
+}
+
+.avatar-popup a {
+  text-decoration: none;
+  color: #333;
+}
+
+.avatar-popup li:hover a {
+  color: #007bff;
+}
+
+/* Popup Menu */
+.popup {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 45%;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+/* Các phần tử trong menu popup */
+.popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.popup ul li {
+  padding: 10px 20px;
+  font-size: 18px;
+  text-align: left;
+  color: #121010;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.popup ul li a {
+  text-decoration: none;
+  color: #0a0a0a;
+  font-size: 20px;
+  font-weight: 100;
+  font-family: "Inter-Regular", Helvetica;
+}
+
+.popup ul li:hover {
+  background-color: #f1f1f1;
+}
