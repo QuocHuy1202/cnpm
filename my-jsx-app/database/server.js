@@ -11,7 +11,7 @@ app.use(cors({
 
 const config = {
   user: 'sa',
-  password: 'Huy1022003',
+  password: 'huy1202',
   server: 'localhost',
   database: 'cnpm',
   options: {
